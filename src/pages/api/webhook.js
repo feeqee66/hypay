@@ -1,5 +1,4 @@
 let transactionData = null; // This will store the transaction data in-memory. You can store it in a database or session if needed.
-import { storeTransactionData } from '../../lib/web3Provider'; // Import the function to interact with the smart contract
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
@@ -12,22 +11,6 @@ export default async function handler(req, res) {
 
       // Log the data for debugging
       console.log('Transaction Data Received:', data);
-
-      // Optionally, store the data in the smart contract (asynchronously)
-      const { paymentId, paymentAmount, milestones } = data.data.payment;
-      const transactionDetails = {
-        paymentId,
-        paymentAmount,
-        milestones: milestones || [],
-      };
-
-      try {
-        // Store the transaction details in the smart contract (if needed)
-        await storeTransactionData(transactionDetails);
-        console.log('Transaction data successfully stored in the smart contract.');
-      } catch (error) {
-        console.error('Error storing transaction data in the smart contract:', error);
-      }
 
       res.status(200).json({ message: 'Transaction received successfully.' });
     } catch (err) {
